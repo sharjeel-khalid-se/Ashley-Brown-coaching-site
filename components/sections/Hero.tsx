@@ -18,11 +18,10 @@ export default function Hero({ onApplyClick }: HeroProps) {
     <section
       id="home"
       className="relative bg-white overflow-x-hidden"
-      style={{ minHeight: "100svh" }}
     >
       {/* Background blush shape */}
       <div
-        className="absolute hidden md:block"
+        className="absolute hidden lg:block"
         style={{
           width: "780px",
           height: "745px",
@@ -40,20 +39,21 @@ export default function Hero({ onApplyClick }: HeroProps) {
         className="relative max-w-7xl mx-auto px-6 lg:px-8 w-full"
         style={{ zIndex: 1 }}
       >
-        <div className="flex flex-col md:grid md:grid-cols-2 items-center md:min-h-screen">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 lg:min-h-[100svh] gap-6 lg:gap-0">
 
-          {/* ── LEFT COLUMN ── */}
+          {/* ── LEFT COLUMN (Text) ── */}
+          {/* pt-28 ensures it easily clears the navbar on mobile */}
           <div
-            className="flex flex-col justify-center order-2 md:order-1 h-auto pt-10 pb-12 md:pt-[96px] md:pb-[48px]"
+            className="flex flex-col justify-center h-auto pt-28 pb-4 lg:pt-[100px] lg:pb-[48px] order-1 lg:self-center"
           >
-            {/* Eyebrow badge */}
+            {/* Eyebrow badge (Mobile Only) */}
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.15 }}
             >
               <span
-                className="inline-flex sm:hidden  items-center rounded-full font-body font-semibold"
+                className="inline-flex sm:hidden items-center rounded-full font-body font-semibold"
                 style={{
                   background: "#FFE8F0",
                   color: "#E8306A",
@@ -70,14 +70,14 @@ export default function Hero({ onApplyClick }: HeroProps) {
               </span>
             </motion.div>
 
-            {/* Headline — no forced <br/>, let it wrap naturally */}
+            {/* Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.3, ease: "easeOut" }}
-              className="font-display leading-tight md:leading-[1.0] h-auto"
+              className="font-display leading-tight lg:leading-[1.0] h-auto"
               style={{
-                fontSize: "clamp(42px, 5vw, 62px)",
+                fontSize: "clamp(36px, 5vw, 62px)", 
                 color: "#1A1A1A",
                 fontFamily: "var(--font-cormorant)",
                 fontWeight: 500,
@@ -186,14 +186,19 @@ export default function Hero({ onApplyClick }: HeroProps) {
             </motion.div>
           </div>
 
-          {/* ── RIGHT COLUMN — Image ── */}
-          <div className="relative order-1 md:order-2 flex flex-col items-center justify-center pt-24 md:pt-0 md:min-h-screen w-full">
-            {/* Image Wrapper */}
+          {/* ── RIGHT COLUMN (Image) ── */}
+          {/* pb-12 on mobile creates physical space below so the absolute badge doesn't overlap the next section */}
+          <div className="relative flex flex-col items-center justify-end w-full order-2 lg:self-end pt-8 lg:pt-0 pb-12 lg:pb-0">
+            
+            {/* Image Wrapper 
+                Fixed height replaced with viewport-relative height (85vh). 
+                Now it will never spill out, even on short laptop screens.
+            */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-              className="relative w-full max-w-sm mx-auto h-[320px] sm:h-[400px] md:max-w-none md:absolute md:w-[908px] md:h-[686px] md:top-[59px] md:left-[-124px]"
+              className="relative w-full aspect-[4/5] max-w-[380px] sm:max-w-[450px] mx-auto lg:max-w-none lg:w-[110%] lg:h-[85vh] lg:max-h-[850px] lg:aspect-auto lg:-ml-[5%]"
             >
               <Image
                 src="/images/hero_nurse.png"
@@ -207,8 +212,8 @@ export default function Hero({ onApplyClick }: HeroProps) {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
 
-              {/* Mobile Badge - only visible on mobile, positioned neatly at bottom center */}
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px] md:hidden z-10 flex justify-center">
+              {/* Mobile Badge - Uses -bottom-6 but wrapper has pb-12, so it sits perfectly in the empty space */}
+              <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[320px] lg:hidden z-20 flex justify-center">
                 <div
                   className="w-full text-center"
                   style={{
@@ -226,21 +231,20 @@ export default function Hero({ onApplyClick }: HeroProps) {
               </div>
             </motion.div>
 
-            {/* Desktop Badge - restored to exactly how it was before, only visible on md and up */}
+            {/* Desktop Badge - Bottom position uses percentage so it dynamically adjusts with the image height */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
-              className="hidden md:block absolute left-auto"
+              className="hidden lg:block absolute z-20"
               style={{
-                bottom: "80px",
-                right: "0",
+                bottom: "10%",
+                right: "5%",
                 background: "white",
                 borderRadius: "40px",
                 padding: "10px 20px",
                 boxShadow: "0 4px 24px rgba(232,48,106,0.14), 0 1px 6px rgba(0,0,0,0.06)",
                 border: "1px solid #F0D0DC",
-                zIndex: 10,
               }}
             >
               <p
