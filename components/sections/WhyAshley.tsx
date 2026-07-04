@@ -33,67 +33,58 @@ function FeatureCard({
   card: (typeof cards)[0];
   index: number;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const ref = useRef<HTMLLIElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
   const Icon = card.icon;
 
   return (
-    <motion.div
+    <motion.li
       ref={ref}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
-      className="group relative bg-white rounded-2xl flex flex-col gap-4 transition-all duration-300 hover:-translate-y-1 h-full"
+      // Custom easing curve for that expensive, buttery smooth reveal
+      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+      // Replaced JS events with pure Tailwind hover states for better performance
+      className="group relative bg-white flex flex-col gap-5 h-full list-none transition-all duration-500 hover:-translate-y-2 border-[1px] border-[#F0D0DC] hover:border-[#E8306A] shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(232,48,106,0.12)]"
       style={{
-        padding: "36px",
-        border: "1px solid #F0D0DC",
-        borderRadius: "16px",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
-        minHeight: "220px",
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget;
-        el.style.borderColor = "#E8306A";
-        el.style.boxShadow = "0 8px 32px rgba(232, 48, 106, 0.12)";
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget;
-        el.style.borderColor = "#F0D0DC";
-        el.style.boxShadow = "none";
+        padding: "40px 36px",
+        borderRadius: "20px",
       }}
     >
       <div
-        className="w-14 h-14 rounded-xl flex items-center justify-center"
+        className="w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:scale-110"
         style={{ background: "#FFE8F0" }}
       >
-        <Icon size={36} color="#E8306A" strokeWidth={1.5} />
+        <Icon size={32} color="#E8306A" strokeWidth={1.5} />
       </div>
 
-      <h3
-        className="font-display"
-        style={{
-          fontSize: "22px",
-          color: "#1A1A1A",
-          fontFamily: "var(--font-cormorant)",
-          fontWeight: 600,
-          lineHeight: 1.2,
-        }}
-      >
-        {card.title}
-      </h3>
+      <div>
+        <h3
+          className="font-display mb-3"
+          style={{
+            fontSize: "24px",
+            color: "#1A1A1A",
+            fontFamily: "var(--font-cormorant)",
+            fontWeight: 600,
+            lineHeight: 1.2,
+          }}
+        >
+          {card.title}
+        </h3>
 
-      <p
-        className="font-body"
-        style={{
-          fontSize: "15px",
-          color: "#555555",
-          lineHeight: 1.65,
-          fontFamily: "var(--font-inter)",
-        }}
-      >
-        {card.body}
-      </p>
-    </motion.div>
+        <p
+          className="font-body"
+          style={{
+            fontSize: "16px",
+            color: "#555555",
+            lineHeight: 1.7,
+            fontFamily: "var(--font-inter)",
+          }}
+        >
+          {card.body}
+        </p>
+      </div>
+    </motion.li>
   );
 }
 
@@ -104,13 +95,14 @@ export default function WhyAshley() {
   return (
     <section id="why" className="py-24 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        
         {/* Header */}
         <motion.div
           ref={titleRef}
           initial={{ opacity: 0, y: 40 }}
           animate={titleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center mb-16 lg:mb-20"
         >
           <h2
             className="font-display"
@@ -125,9 +117,9 @@ export default function WhyAshley() {
             Why Ashley is Different
           </h2>
           <p
-            className="font-body mt-4 mx-auto"
+            className="font-body mt-5 mx-auto"
             style={{
-              fontSize: "16px",
+              fontSize: "17px",
               color: "#666666",
               maxWidth: "480px",
               fontFamily: "var(--font-inter)",
@@ -138,12 +130,13 @@ export default function WhyAshley() {
           </p>
         </motion.div>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Cards grid - Semantic UL with increased desktop gap */}
+        <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 m-0 p-0">
           {cards.map((card, i) => (
             <FeatureCard key={card.id} card={card} index={i} />
           ))}
-        </div>
+        </ul>
+        
       </div>
     </section>
   );

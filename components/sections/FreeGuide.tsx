@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function FreeGuide() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const inView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <section
@@ -17,51 +17,51 @@ export default function FreeGuide() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex justify-center">
         <motion.div
-          initial={{ opacity: 0, y: 36 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="w-full flex flex-col sm:flex-row items-center gap-8 bg-white rounded-2xl"
+          // Premium easing curve for a buttery smooth entrance
+          transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+          // Added group class for image hover effect and a subtle lift on the card itself
+          className="w-full flex flex-col sm:flex-row items-center gap-8 lg:gap-10 bg-white group transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(232,48,106,0.08)]"
           style={{
             maxWidth: "800px",
-            padding: "36px 40px",
-            boxShadow: "0 8px 40px rgba(232, 48, 106, 0.08), 0 2px 12px rgba(0,0,0,0.04)",
+            padding: "40px", // Simplified padding
+            boxShadow: "0 8px 40px rgba(232, 48, 106, 0.05), 0 2px 12px rgba(0,0,0,0.03)",
             border: "1px solid #F0D0DC",
-            borderRadius: "20px",
+            borderRadius: "24px", // Slightly rounder for a modern feel
           }}
         >
           {/* Left — Guide cover image */}
           <div
-            className="flex-shrink-0"
+            // Replaced inline fixed styles with Tailwind for better mobile responsiveness
+            className="flex-shrink-0 relative overflow-hidden mx-auto sm:mx-0 w-[160px] h-[220px] sm:w-[180px] sm:h-[240px]"
             style={{
-              width: "180px",
-              height: "240px",
-              position: "relative",
-              borderRadius: "8px",
-              overflow: "hidden",
-              boxShadow: "0 12px 32px rgba(0,0,0,0.15)",
+              borderRadius: "12px",
+              boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
             }}
           >
             <Image
               src="/images/free_guide_cover.jpg"
               alt="The Fat-Loss Macro Method Guide — Free Download"
               fill
-              className="object-cover"
-              sizes="160px"
+              // Added subtle scale effect on hover
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              sizes="(max-width: 640px) 160px, 180px"
             />
           </div>
 
           {/* Right — Content */}
-          <div className="flex flex-col gap-4 flex-1">
+          <div className="flex flex-col gap-4 flex-1 items-center sm:items-start text-center sm:text-left">
             {/* Badge */}
             <span
-              className="font-body font-bold self-start rounded-full"
+              className="font-body font-bold rounded-full"
               style={{
                 background: "#FFE8F0",
                 color: "#E8306A",
                 fontSize: "11px",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                padding: "5px 14px",
+                padding: "6px 16px",
                 border: "1px solid #F0D0DC",
                 fontFamily: "var(--font-inter)",
               }}
@@ -73,10 +73,10 @@ export default function FreeGuide() {
             <h2
               className="font-display"
               style={{
-                fontSize: "clamp(24px, 3vw, 32px)",
+                fontSize: "clamp(26px, 3vw, 34px)",
                 color: "#1A1A1A",
                 fontFamily: "var(--font-cormorant)",
-                fontWeight: 500,
+                fontWeight: 600, // Matched weight with previous sections
                 lineHeight: 1.15,
               }}
             >
@@ -87,10 +87,11 @@ export default function FreeGuide() {
             <p
               className="font-body"
               style={{
-                fontSize: "15px",
+                fontSize: "16px",
                 color: "#555555",
                 lineHeight: 1.7,
                 fontFamily: "var(--font-inter)",
+                maxWidth: "400px",
               }}
             >
               Take the guesswork out of nutrition. This free guide shows you
@@ -105,14 +106,15 @@ export default function FreeGuide() {
               target="_blank"
               rel="noopener noreferrer"
               download="Fat-Loss-Macro-Method-Guide.pdf"
-              className="font-body font-semibold text-white rounded-full self-start transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
+              aria-label="Download the free Fat-Loss Macro Method Guide PDF"
+              className="font-body font-semibold text-white rounded-full transition-all duration-300 hover:bg-[#D4255A] hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E8306A] focus-visible:ring-offset-2 mt-2"
               style={{
                 background: "#E8306A",
-                padding: "13px 28px",
-                fontSize: "14px",
+                padding: "14px 32px",
+                fontSize: "15px",
                 fontFamily: "var(--font-inter)",
                 display: "inline-block",
-                boxShadow: "0 4px 20px rgba(232, 48, 106, 0.22)",
+                boxShadow: "0 8px 24px rgba(232, 48, 106, 0.25)",
                 textDecoration: "none",
               }}
             >

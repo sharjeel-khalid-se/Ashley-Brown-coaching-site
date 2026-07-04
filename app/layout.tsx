@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 
+// 1. Headline Font (Remains the same, highly premium)
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+// 2. Body Font (Upgraded from Inter to Plus Jakarta Sans for a $10K feel)
+// Note: Variable name is kept as "--font-inter" so your existing Tailwind/inline CSS doesn't break.
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-inter", 
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
@@ -45,7 +48,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
+    // Applied the new jakarta.variable here
+    <html lang="en" className={`${cormorant.variable} ${jakarta.variable}`}>
       <body className="antialiased">
         <LenisProvider>{children}</LenisProvider>
       </body>

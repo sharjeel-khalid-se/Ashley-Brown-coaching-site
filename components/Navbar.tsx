@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Menu } from "lucide-react";
+import { X, Menu, Download } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface NavbarProps {
@@ -31,19 +31,19 @@ export default function Navbar({ onApplyClick }: NavbarProps) {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-sm shadow-sm"
+            ? "bg-white/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.05)]"
             : "bg-transparent"
         }`}
         role="navigation"
         aria-label="Main navigation"
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex flex-col justify-center">
+          <a href="#home" className="flex flex-col justify-center transition-opacity hover:opacity-80">
             <span
               className="font-display italic leading-tight"
               style={{
-                fontSize: "20px",
+                fontSize: "22px",
                 color: "#1A1A1A",
                 fontFamily: "var(--font-cormorant)",
               }}
@@ -56,12 +56,13 @@ export default function Navbar({ onApplyClick }: NavbarProps) {
                 fontSize: "10px",
                 color: "#666666",
                 letterSpacing: "0.15em",
+                textTransform: "uppercase",
                 fontFamily: "var(--font-inter)",
               }}
             >
               RN · CPT · Nutritionist
             </span>
-          </div>
+          </a>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-8">
@@ -69,7 +70,7 @@ export default function Navbar({ onApplyClick }: NavbarProps) {
               <a
                 key={link.label}
                 href={link.href}
-                className="font-body text-sm font-medium transition-colors duration-200 hover:text-accent"
+                className="font-body text-sm font-medium transition-colors duration-200 hover:text-[#E8306A]"
                 style={{
                   color: "#1A1A1A",
                   fontFamily: "var(--font-inter)",
@@ -78,13 +79,25 @@ export default function Navbar({ onApplyClick }: NavbarProps) {
                 {link.label}
               </a>
             ))}
+            
+            {/* Free Guide Link (New) */}
+            <a
+              href="#free-guide"
+              className="font-body text-sm font-medium flex items-center gap-2 hover:text-[#E8306A] transition-colors"
+              style={{ color: "#1A1A1A", fontFamily: "var(--font-inter)" }}
+            >
+              <Download size={14} />
+              Free Guide
+            </a>
+
             <button
               id="navbar-apply-btn"
               onClick={onApplyClick}
-              className="font-body text-sm font-semibold text-white rounded-full px-6 py-2.5 transition-all duration-200 hover:opacity-90 hover:scale-[1.02] active:scale-100"
+              className="font-body text-sm font-semibold text-white rounded-full px-6 py-2.5 transition-all duration-300 hover:scale-[1.03] active:scale-100"
               style={{
                 background: "#E8306A",
                 fontFamily: "var(--font-inter)",
+                boxShadow: "0 4px 12px rgba(232, 48, 106, 0.2)",
               }}
             >
               Apply Now
@@ -93,15 +106,15 @@ export default function Navbar({ onApplyClick }: NavbarProps) {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 rounded-md"
+            className="md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle mobile menu"
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? (
-              <X size={22} color="#1A1A1A" />
+              <X size={24} color="#1A1A1A" />
             ) : (
-              <Menu size={22} color="#1A1A1A" />
+              <Menu size={24} color="#1A1A1A" />
             )}
           </button>
         </div>
@@ -112,31 +125,43 @@ export default function Navbar({ onApplyClick }: NavbarProps) {
         {mobileOpen && (
           <motion.div
             key="mobile-menu"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-white shadow-lg border-t border-gray-100"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed top-20 left-0 right-0 z-40 bg-white shadow-2xl border-t border-gray-100 md:hidden overflow-hidden"
           >
-            <div className="flex flex-col px-6 py-4 gap-4">
+            <div className="flex flex-col px-6 py-6 gap-6">
               {navLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="font-body text-base font-medium py-2 border-b border-gray-50"
+                  className="font-body text-lg font-medium py-1"
                   style={{ color: "#1A1A1A", fontFamily: "var(--font-inter)" }}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
+              
+              {/* Mobile Free Guide */}
+              <a
+                href="#free-guide"
+                className="font-body text-lg font-medium py-1 flex items-center gap-2"
+                style={{ color: "#E8306A", fontFamily: "var(--font-inter)" }}
+                onClick={() => setMobileOpen(false)}
+              >
+                <Download size={18} />
+                Get Free Guide
+              </a>
+
               <button
                 id="navbar-mobile-apply-btn"
                 onClick={() => {
                   setMobileOpen(false);
                   onApplyClick();
                 }}
-                className="font-body text-sm font-semibold text-white rounded-full px-6 py-3 mt-2 transition-all duration-200 hover:opacity-90"
+                className="font-body text-base font-semibold text-white rounded-full px-6 py-4 transition-all duration-200 hover:bg-[#D4255A]"
                 style={{
                   background: "#E8306A",
                   fontFamily: "var(--font-inter)",
