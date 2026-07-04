@@ -17,12 +17,12 @@ export default function Hero({ onApplyClick }: HeroProps) {
   return (
     <section
       id="home"
-      className="relative bg-white overflow-hidden"
+      className="relative bg-white overflow-x-hidden"
       style={{ minHeight: "100svh" }}
     >
       {/* Background blush shape */}
       <div
-        className="absolute hidden lg:block"
+        className="absolute hidden md:block"
         style={{
           width: "780px",
           height: "745px",
@@ -40,12 +40,11 @@ export default function Hero({ onApplyClick }: HeroProps) {
         className="relative max-w-7xl mx-auto px-6 lg:px-8 w-full"
         style={{ zIndex: 1 }}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:min-h-screen">
+        <div className="flex flex-col md:grid md:grid-cols-2 items-center md:min-h-screen">
 
           {/* ── LEFT COLUMN ── */}
           <div
-            className="flex flex-col justify-center order-2 lg:order-1"
-            style={{ paddingTop: "96px", paddingBottom: "48px" }}
+            className="flex flex-col justify-center order-2 md:order-1 h-auto pt-10 pb-12 md:pt-[96px] md:pb-[48px]"
           >
             {/* Eyebrow badge */}
             <motion.div
@@ -54,7 +53,7 @@ export default function Hero({ onApplyClick }: HeroProps) {
               transition={{ duration: 0.55, delay: 0.15 }}
             >
               <span
-                className="inline-flex items-center rounded-full font-body font-semibold"
+                className="inline-flex sm:hidden  items-center rounded-full font-body font-semibold"
                 style={{
                   background: "#FFE8F0",
                   color: "#E8306A",
@@ -76,10 +75,9 @@ export default function Hero({ onApplyClick }: HeroProps) {
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.3, ease: "easeOut" }}
-              className="font-display"
+              className="font-display leading-tight md:leading-[1.0] h-auto"
               style={{
                 fontSize: "clamp(42px, 5vw, 62px)",
-                lineHeight: 1.0,
                 color: "#1A1A1A",
                 fontFamily: "var(--font-cormorant)",
                 fontWeight: 500,
@@ -94,6 +92,7 @@ export default function Hero({ onApplyClick }: HeroProps) {
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+              className="relative"
               style={{
                 height: "2px",
                 width: "48px",
@@ -188,13 +187,13 @@ export default function Hero({ onApplyClick }: HeroProps) {
           </div>
 
           {/* ── RIGHT COLUMN — Image ── */}
-          <div className="relative order-1 lg:order-2 flex items-start justify-center pt-12 lg:pt-0 lg:min-h-screen">
-            {/* Image — responsive sizes */}
+          <div className="relative order-1 md:order-2 flex flex-col items-center justify-center pt-24 md:pt-0 md:min-h-screen w-full">
+            {/* Image Wrapper */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.1, ease: "easeOut" }}
-              className="relative w-full h-[50vh] sm:h-[60vh] lg:absolute lg:w-[908px] lg:h-[686px] lg:top-[59px] lg:right-[-134px]"
+              className="relative w-full max-w-sm mx-auto h-[320px] sm:h-[400px] md:max-w-none md:absolute md:w-[908px] md:h-[686px] md:top-[59px] md:left-[-124px]"
             >
               <Image
                 src="/images/hero_nurse.png"
@@ -207,14 +206,32 @@ export default function Hero({ onApplyClick }: HeroProps) {
                 }}
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
+
+              {/* Mobile Badge - only visible on mobile, positioned neatly at bottom center */}
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[90%] max-w-[300px] md:hidden z-10 flex justify-center">
+                <div
+                  className="w-full text-center"
+                  style={{
+                    background: "white",
+                    borderRadius: "40px",
+                    padding: "10px 20px",
+                    boxShadow: "0 4px 24px rgba(232,48,106,0.14), 0 1px 6px rgba(0,0,0,0.06)",
+                    border: "1px solid #F0D0DC",
+                  }}
+                >
+                  <p className="font-body font-semibold text-[13px] text-[#1A1A1A] whitespace-nowrap">
+                    🩺 Ashley Brown, RN · CPT
+                  </p>
+                </div>
+              </div>
             </motion.div>
 
-            {/* Small decorative pill — credential floating tag */}
+            {/* Desktop Badge - restored to exactly how it was before, only visible on md and up */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 1.1 }}
-              className="absolute left-0 lg:left-auto"
+              className="hidden md:block absolute left-auto"
               style={{
                 bottom: "80px",
                 right: "0",

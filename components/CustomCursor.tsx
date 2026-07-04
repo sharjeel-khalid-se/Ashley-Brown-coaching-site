@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
+  const [isMobile, setIsMobile] = useState(true);
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const mousePos = useRef({ x: 0, y: 0 });
@@ -10,9 +11,12 @@ export default function CustomCursor() {
   const rafRef = useRef<number>(0);
 
   useEffect(() => {
-    // Only show custom cursor on non-touch devices
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-
+    // Only show custom cursor on non-touch devices and larger screens
+    if (window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024) {
+      return;
+    }
+    
+    setIsMobile(false);
     document.body.classList.add("has-custom-cursor");
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -57,19 +61,21 @@ export default function CustomCursor() {
     };
   }, []);
 
+  if (isMobile) return null;
+
   return (
     <>
       {/* Dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-accent pointer-events-none z-[9999] transition-transform duration-75"
+        className="hidden lg:block fixed top-0 left-0 w-2 h-2 rounded-full bg-accent pointer-events-none z-[9999] transition-transform duration-75"
         style={{ backgroundColor: "#E8306A", willChange: "transform" }}
         aria-hidden="true"
       />
       {/* Ring */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-[9998] transition-[transform,opacity] duration-300"
+        className="hidden lg:block fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-[9998] transition-[transform,opacity] duration-300"
         style={{
           border: "1.5px solid #E8306A",
           willChange: "transform",
